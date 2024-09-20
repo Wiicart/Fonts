@@ -1,0 +1,7 @@
+name: Fonts
+version: '${project.version}'
+main: com.pedestriamc.fonts.Fonts
+api-version: 1.16
+prefix: Fonts
+authors: [ wiicart ]
+description: Chat font customizer
