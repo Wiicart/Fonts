@@ -1,0 +1,59 @@
+# 01010000 01000101 01000100 01000101 01010011 01010100 01010010 01001001 01000001
+# +------------------------------------------------------------------------------+
+# |    88888888888  ,ad8888ba,        888b      88  888888888888  ad88888ba      |
+# |    88          d8"'    `"8b      8888b     88        88      d8"     "8b     |
+# |    88         d8'        `8b     88 `8b    88        88      Y8,             |
+# |    88aaaaa    88          88    88  `8b   88         88      `Y8aaaaa,       |
+# |    88"""""    88          88    88   `8b  88         88        `"""""8b,     |
+# |    88         Y8,        ,8P   88    `8b 88          88              `8b     |
+# |    88          Y8a.    .a8P    88     `8888          88      Y8a     a8P     |
+# |    88           `"Y8888Y"'    88      `888           88       "Y88888P"      |
+# |                                                                              |
+# |                            created by: wiicart                               |
+# |                        https://www.wiicart.net/fonts                         |
+# |                                                                              |
+# +------------------------------------------------------------------------------+
+# 01010000 01000101 01000100 01000101 01010011 01010100 01010010 01001001 01000001
+
+# All command messages may be modified in this file.
+
+# Plugin prefix:
+# Will be inserted before all plugin messages, -
+# unless the message is multiple lines.
+prefix: "&8[&cFonts&8] &f"
+
+# No permission message:
+no-perms: "&fYou don't have permission to execute that command."
+
+# Too many args message:
+too-many-args: "&fYou used too many arguments with that command."
+
+# Command can only be used by players message:
+player-only: "&fThat command can only be executed by players."
+
+# Font not found message:
+# Available placeholders:
+# - {font_name} (the invalid font)
+font-not-found: "&fFont &7{font_name} &fwas not found."
+
+# Player not found message:
+# Available placeholders:
+# - {user} (the username of the player not found)
+player-not-found: "&fPlayer &7{user} &fwas not found."
+
+# No perms to use font message:
+# Available placeholders:
+# - {font_name}
+no-perms-font: "&fYou don't have permission to use the &7{font_name} &ffont."
+
+# Font changed message:
+# Available placeholders:
+# - {font_name}
+# - {user} (user of the player whos font is being changed.
+font-changed: "&fYour font has been changed to &7{font_name}&f."
+
+# Font changed for other player message:
+# Available placeholders:
+# - {font_name}
+# - {user} (user of the player whos font is being changed.
+font-changed-other: "&7{user}&f's font has been changed to &7{font_name}&f."

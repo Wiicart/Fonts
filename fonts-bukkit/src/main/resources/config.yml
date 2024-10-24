@@ -1,0 +1,36 @@
+# 01010000 01000101 01000100 01000101 01010011 01010100 01010010 01001001 01000001
+# +------------------------------------------------------------------------------+
+# |    88888888888  ,ad8888ba,        888b      88  888888888888  ad88888ba      |
+# |    88          d8"'    `"8b      8888b     88        88      d8"     "8b     |
+# |    88         d8'        `8b     88 `8b    88        88      Y8,             |
+# |    88aaaaa    88          88    88  `8b   88         88      `Y8aaaaa,       |
+# |    88"""""    88          88    88   `8b  88         88        `"""""8b,     |
+# |    88         Y8,        ,8P   88    `8b 88          88              `8b     |
+# |    88          Y8a.    .a8P    88     `8888          88      Y8a     a8P     |
+# |    88           `"Y8888Y"'    88      `888           88       "Y88888P"      |
+# |                                                                              |
+# |                            created by: wiicart                               |
+# |                        https://www.wiicart.net/fonts                         |
+# |                                                                              |
+# +------------------------------------------------------------------------------+
+# 01010000 01000101 01000100 01000101 01010011 01010100 01010010 01001001 01000001
+#
+# General Information:
+# For uploading and managing fonts, read README.txt in the "fonts" folder.
+# This file primarily handles configuration for commands.
+
+# Storage Method:
+# Options:
+# - mysql
+# - yaml
+# If you use the MySQL option, uncomment the MySQL info and enter your information.
+storage: yml
+
+# MySQL Database Info
+# Uncomment the following lines to enter database info:
+#database:
+#  host: localhost
+#  port: 3306
+#  database: fonts_db
+#  username: user
+#  password: pswd
