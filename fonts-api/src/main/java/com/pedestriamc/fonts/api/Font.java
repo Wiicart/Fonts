@@ -1,6 +1,6 @@
 package com.pedestriamc.fonts.api;
 
-public interface IFont {
+public interface Font {
 
     /**
      * Provides the Font name

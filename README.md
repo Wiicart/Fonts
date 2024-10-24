@@ -9,5 +9,4 @@
 88           `"Y8888Y"'    88      `888           88       "Y88888P"  
 ```
 # Information
-Fonts is a plugin that brings customizability to player fonts in-game.\
-Whether it be unicode text, or custom textures, Fonts supports it.
+Fonts is a plugin that brings customizability to player fonts in-game.

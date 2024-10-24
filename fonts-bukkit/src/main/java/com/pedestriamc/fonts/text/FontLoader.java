@@ -1,6 +1,7 @@
 package com.pedestriamc.fonts.text;
 
 import com.pedestriamc.fonts.Fonts;
+import com.pedestriamc.fonts.api.Font;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -96,7 +97,7 @@ public class FontLoader {
                         map.put(str.charAt(0), section.getString(str));
                     }
                 }
-                Font font = new Font(name, map);
+                Font font = new UnicodeFont(name, map);
                 fontMap.put(name, font);
                 fonts.getLogger().info("Loaded font '" + name + "'.");
                 return font;

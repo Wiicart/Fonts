@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <parent>
-        <artifactId>fonts</artifactId>
+        <artifactId>Fonts</artifactId>
         <groupId>com.pedestriamc</groupId>
         <version>1.0</version>
     </parent>
@@ -18,6 +18,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pedestriamc</groupId>
+            <artifactId>fonts-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
     
 </project>

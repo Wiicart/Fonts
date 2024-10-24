@@ -1,7 +1,6 @@
 package com.pedestriamc.fonts.api.event;
 
-import com.pedestriamc.fonts.api.IFont;
-import net.md_5.bungee.api.chat.BaseComponent;
+import com.pedestriamc.fonts.api.Font;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -12,9 +11,9 @@ public class FontsChatEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
     private final AsyncPlayerChatEvent event;
-    private final IFont font;
+    private final Font font;
 
-    public FontsChatEvent(AsyncPlayerChatEvent event, IFont font) {
+    public FontsChatEvent(AsyncPlayerChatEvent event, Font font) {
         this.event = event;
         this.font = font;
     }
@@ -23,7 +22,7 @@ public class FontsChatEvent extends Event {
         return event;
     }
 
-    public IFont getFont() {
+    public Font getFont() {
         return font;
     }
 

@@ -1,13 +1,14 @@
 package com.pedestriamc.fonts.users;
 
-import com.pedestriamc.fonts.text.Font;
+import com.pedestriamc.fonts.api.Font;
+import com.pedestriamc.fonts.api.FontsUser;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class User{
+public class User implements FontsUser {
 
     private final String name;
     private final UUID uuid;

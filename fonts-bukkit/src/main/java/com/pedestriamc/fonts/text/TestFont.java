@@ -2,7 +2,7 @@ package com.pedestriamc.fonts.text;
 
 import java.util.HashMap;
 
-public class TestFont extends Font {
+public class TestFont extends UnicodeFont {
 
     public TestFont() {
         super("TEST_FONT", new HashMap<Character, String>() {{

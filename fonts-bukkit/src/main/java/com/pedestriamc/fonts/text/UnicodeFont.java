@@ -1,15 +1,16 @@
 package com.pedestriamc.fonts.text;
 
+import com.pedestriamc.fonts.api.Font;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class Font {
+public class UnicodeFont implements Font {
 
     private final Map<Character, String> map;
     private final String name;
 
-    public Font(String name, Map<Character, String> map) {
+    public UnicodeFont(String name, Map<Character, String> map) {
         this.name = name;
         this.map = map;
     }

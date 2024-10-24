@@ -1,12 +1,14 @@
 package com.pedestriamc.fonts;
 
+import com.pedestriamc.fonts.api.Font;
+import com.pedestriamc.fonts.api.FontsProvider;
 import com.pedestriamc.fonts.commands.FontCommand;
+import com.pedestriamc.fonts.impl.FontsImpl;
 import com.pedestriamc.fonts.listeners.ChatListener;
 import com.pedestriamc.fonts.listeners.JoinListener;
 import com.pedestriamc.fonts.listeners.LeaveListener;
 import com.pedestriamc.fonts.message.Messenger;
 import com.pedestriamc.fonts.text.DefaultFont;
-import com.pedestriamc.fonts.text.Font;
 import com.pedestriamc.fonts.text.FontLoader;
 import com.pedestriamc.fonts.users.MySqlUserUtil;
 import com.pedestriamc.fonts.users.User;
@@ -20,6 +22,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.UUID;
 
 public final class Fonts extends JavaPlugin {
 
@@ -36,6 +39,7 @@ public final class Fonts extends JavaPlugin {
     private FileConfiguration usersConfig;
     private FileConfiguration messagesConfig;
     private Messenger messenger;
+    private UUID apiKey;
 
     @Override
     public void onEnable() {
@@ -44,6 +48,7 @@ public final class Fonts extends JavaPlugin {
         createObjects();
         registerClasses();
         loadUsers();
+        loadApi();
         getLogger().info("Fonts version " + getVersion() + " loaded.");
     }
 
@@ -57,6 +62,10 @@ public final class Fonts extends JavaPlugin {
         this.messagesConfig = null;
         this.messenger = null;
         HandlerList.unregisterAll(this);
+        try{
+            FontsProvider.unregister(this, apiKey);
+        } catch (SecurityException ignored) {
+        }
         getLogger().info("Fonts disabled.");
     }
 
@@ -66,12 +75,18 @@ public final class Fonts extends JavaPlugin {
     }
 
     public void loadUsers(){
-        if(userUtil.getUserMap().isEmpty() && Bukkit.getOnlinePlayers().size() > 0){
+        if(userUtil.getUserMap().isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()){
             for(Player p : Bukkit.getOnlinePlayers()){
                 User user = userUtil.loadUser(p);
                 userUtil.getUserMap().addUser(user);
             }
         }
+    }
+
+    public void loadApi(){
+        FontsImpl fontsImpl = new FontsImpl(this);
+        apiKey = UUID.randomUUID();
+        FontsProvider.register(fontsImpl, this, apiKey);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
