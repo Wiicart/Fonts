@@ -1,10 +1,10 @@
 package com.pedestriamc.fonts.commands;
 
+import com.pedestriamc.common.message.Messenger;
 import com.pedestriamc.fonts.Fonts;
+import com.pedestriamc.fonts.api.Font;
 import com.pedestriamc.fonts.message.Message;
-import com.pedestriamc.fonts.message.Messenger;
 import com.pedestriamc.fonts.text.DefaultFont;
-import com.pedestriamc.fonts.text.Font;
 import com.pedestriamc.fonts.text.FontLoader;
 import com.pedestriamc.fonts.users.User;
 import com.pedestriamc.fonts.users.UserUtil;
@@ -21,7 +21,7 @@ public class FontCommand implements CommandExecutor {
 
     private final FontLoader fontLoader;
     private final UserUtil userUtil;
-    private final Messenger messenger;
+    private final Messenger<Message> messenger;
 
     public FontCommand(Fonts fonts) {
         fontLoader = fonts.getFontLoader();

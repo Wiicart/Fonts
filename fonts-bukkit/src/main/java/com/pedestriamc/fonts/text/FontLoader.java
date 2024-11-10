@@ -2,6 +2,8 @@ package com.pedestriamc.fonts.text;
 
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.api.Font;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,7 +21,7 @@ public class FontLoader {
     public FontLoader(Fonts fonts) {
 
         this.fonts = fonts;
-        defaultFont = fonts.getDefaultFont();
+        defaultFont = new DefaultFont();
         fontMap = new HashMap<>();
 
         fontsFolder = new File(fonts.getDataFolder(), "fonts");
@@ -32,25 +34,29 @@ public class FontLoader {
             saveDefaultFonts();
             fonts.getLogger().info("Fonts folder loaded.");
         }
+
     }
 
     /**
      * Saves the fonts the plugin comes bundled with.
      */
     private void saveDefaultFonts() {
-        saveFont("italic.yml");
-        saveFont("mono.yml");
-        saveFont("circled.yml");
-        saveFont("smallcaps.yml");
-        saveFont("custom.yml");
-
+        saveFile("italic.yml");
+        saveFile("mono.yml");
+        saveFile("circled.yml");
+        saveFile("smallcaps.yml");
+        saveFile("README.txt");
     }
 
-    private void saveFont(String font) {
+    /**
+     * Saves a File in the fonts/fonts directory
+     * @param file The File to be saved
+     */
+    private void saveFile(String file) {
         try {
-            fonts.saveResource("fonts/" + font, false);
+            fonts.saveResource("fonts/" + file, false);
         } catch (Exception e) {
-            fonts.getLogger().info("Failed to save default font '" + font + "'");
+            fonts.getLogger().info("Failed to save default font '" + file + "'");
         }
     }
 
@@ -62,6 +68,7 @@ public class FontLoader {
      * @return The font if it exists, otherwise the default font.
      */
     public Font getFont(String name) {
+
         if (!(fontMap.containsKey("name"))) {
             return loadFont(name);
         }
@@ -83,6 +90,7 @@ public class FontLoader {
         }
 
         File file = new File(fontsFolder, name + ".yml");
+
         if (file.exists() && !file.isDirectory()) {
             try {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);
@@ -91,7 +99,7 @@ public class FontLoader {
                     fonts.getLogger().info("Unable to load font '" + name + "', improper formatting.");
                     return null;
                 }
-                HashMap<Character, String> map = new HashMap<>();
+                BidiMap<Character, String> map = new DualHashBidiMap<>();
                 for (String str : section.getKeys(false)) {
                     if (str.length() == 1) {
                         map.put(str.charAt(0), section.getString(str));
@@ -108,4 +116,9 @@ public class FontLoader {
         fonts.getLogger().info("Failed to load font '" + name + "', file not found.");
         return defaultFont;
     }
+
+    public DefaultFont getDefaultFont(){
+        return (DefaultFont) defaultFont;
+    }
+
 }

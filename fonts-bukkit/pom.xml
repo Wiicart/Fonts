@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>fonts-bukkit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <parent>
         <artifactId>Fonts</artifactId>
@@ -25,7 +25,25 @@
             <artifactId>fonts-api</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tchristofferson</groupId>
+            <artifactId>ConfigUpdater</artifactId>
+            <version>2.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pedestriamc</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
-
-    
 </project>

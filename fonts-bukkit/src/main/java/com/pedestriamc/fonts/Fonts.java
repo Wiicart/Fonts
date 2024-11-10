@@ -1,19 +1,19 @@
 package com.pedestriamc.fonts;
 
-import com.pedestriamc.fonts.api.Font;
+import com.pedestriamc.common.message.Messenger;
 import com.pedestriamc.fonts.api.FontsProvider;
 import com.pedestriamc.fonts.commands.FontCommand;
 import com.pedestriamc.fonts.impl.FontsImpl;
 import com.pedestriamc.fonts.listeners.ChatListener;
 import com.pedestriamc.fonts.listeners.JoinListener;
 import com.pedestriamc.fonts.listeners.LeaveListener;
-import com.pedestriamc.fonts.message.Messenger;
-import com.pedestriamc.fonts.text.DefaultFont;
+import com.pedestriamc.fonts.message.Message;
 import com.pedestriamc.fonts.text.FontLoader;
-import com.pedestriamc.fonts.users.MySqlUserUtil;
 import com.pedestriamc.fonts.users.User;
 import com.pedestriamc.fonts.users.UserUtil;
 import com.pedestriamc.fonts.users.YamlUserUtil;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,13 +33,16 @@ public final class Fonts extends JavaPlugin {
     @SuppressWarnings("FieldCanBeLocal")
     private final short versionNum = 1;
 
-    private Font defaultFont;
+    @SuppressWarnings("FieldCanBeLocal")
+    private Metrics metrics;
+
     private FontLoader fontLoader;
     private UserUtil userUtil;
     private FileConfiguration usersConfig;
     private FileConfiguration messagesConfig;
-    private Messenger messenger;
+    private Messenger<Message> messenger;
     private UUID apiKey;
+    private boolean initialLoad;
 
     @Override
     public void onEnable() {
@@ -49,13 +52,13 @@ public final class Fonts extends JavaPlugin {
         registerClasses();
         loadUsers();
         loadApi();
-        getLogger().info("Fonts version " + getVersion() + " loaded.");
+        setupMetrics();
+        log("Fonts version " + getVersion() + " loaded.");
     }
 
     @Override
     public void onDisable() {
         userUtil.getUserMap().clear();
-        this.defaultFont = null;
         this.fontLoader = null;
         this.userUtil = null;
         this.usersConfig = null;
@@ -66,7 +69,7 @@ public final class Fonts extends JavaPlugin {
             FontsProvider.unregister(this, apiKey);
         } catch (SecurityException ignored) {
         }
-        getLogger().info("Fonts disabled.");
+        log("Fonts disabled.");
     }
 
     public void reload(){
@@ -92,6 +95,7 @@ public final class Fonts extends JavaPlugin {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void setupFiles() {
         File usersFile = new File(getDataFolder(), "users.yml");
+        initialLoad = usersFile.exists();
         if (!usersFile.exists()) {
             usersFile.getParentFile().mkdirs();
             saveResource("users.yml", false);
@@ -107,21 +111,9 @@ public final class Fonts extends JavaPlugin {
     }
 
     private void createObjects() {
-        defaultFont = new DefaultFont();
         fontLoader = new FontLoader(this);
-        messenger = new Messenger(this);
-        if(!getConfig().getBoolean("mysql")) {
-            userUtil = new YamlUserUtil(this);
-        }else{
-            try{
-                userUtil = new MySqlUserUtil(this);
-                getLogger().info("Connected to database.");
-            }catch(Exception e){
-                getLogger().info("Failed to connect to database, defaulting to yaml storage.");
-                userUtil = new YamlUserUtil(this);
-            }
-
-        }
+        messenger = new Messenger<>(getMessagesConfig(), getMessagesConfig().getString("prefix", "&8[&cFonts&8] &f"), Message.class);
+        userUtil = new YamlUserUtil(this);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -132,12 +124,24 @@ public final class Fonts extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LeaveListener(this), this);
     }
 
-    public FileConfiguration getUsersFile() {
-        return usersConfig;
+    private void log(String msg){
+        getLogger().info(msg);
     }
 
-    public DefaultFont getDefaultFont() {
-        return (DefaultFont) defaultFont;
+    private void setupMetrics(){
+        int pluginId = 23619;
+        metrics = new Metrics(this, pluginId);
+        metrics.addCustomChart(new SimplePie("distributor", this::getDistributor));
+    }
+
+
+
+
+
+    // All getter methods from this point on
+
+    public FileConfiguration getUsersFile() {
+        return usersConfig;
     }
 
     public FontLoader getFontLoader() {
@@ -152,7 +156,7 @@ public final class Fonts extends JavaPlugin {
         return messagesConfig;
     }
 
-    public Messenger getMessenger() {
+    public Messenger<Message> getMessenger() {
         return messenger;
     }
 
@@ -170,4 +174,9 @@ public final class Fonts extends JavaPlugin {
     public short getVersionNum(){
         return versionNum;
     }
+
+    public boolean isInitialLoad(){
+        return initialLoad;
+    }
+
 }

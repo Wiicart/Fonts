@@ -22,12 +22,13 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
         User user = util.loadUser(player);
         util.getUserMap().addUser(user);
+
         if (!(user.getFont() instanceof DefaultFont)) {
             util.saveUser(user);
         }
 
 
-        player.setResourcePack("https://github.com/Wiicart/wiicart.net/raw/refs/heads/main/fonts/test/gon.zip");
+        //player.setResourcePack("https://github.com/Wiicart/wiicart.net/raw/refs/heads/main/fonts/test/gon.zip");
 
     }
 }

@@ -16,7 +16,7 @@ public class MySqlUserUtil implements UserUtil{
     public MySqlUserUtil(@NotNull Fonts fonts) throws Exception{
         userMap = new UserMap();
         fontLoader = fonts.getFontLoader();
-        defaultFont = fonts.getDefaultFont();
+        defaultFont = fontLoader.getDefaultFont();
 
     }
 

@@ -68,7 +68,6 @@ public final class FontsProvider {
 
         FontsProvider.fontsAPI = null;
         FontsProvider.uuid = null;
-
     }
 
 }

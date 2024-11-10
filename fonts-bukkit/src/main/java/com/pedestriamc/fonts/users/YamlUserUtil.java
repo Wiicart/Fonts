@@ -20,12 +20,11 @@ public class YamlUserUtil implements UserUtil{
         userMap = new UserMap();
         config = fonts.getUsersFile();
         fontLoader = fonts.getFontLoader();
-        defaultFont = fonts.getDefaultFont();
+        defaultFont = fontLoader.getDefaultFont();
     }
 
     /**
      * Saves a User to users.yml.
-     *
      * @param user The user to be saved.
      */
     @Override

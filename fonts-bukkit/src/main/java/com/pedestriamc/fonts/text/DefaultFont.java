@@ -2,7 +2,7 @@ package com.pedestriamc.fonts.text;
 
 import org.jetbrains.annotations.NotNull;
 
-public class DefaultFont extends UnicodeFont{
+public class DefaultFont extends UnicodeFont {
 
     public DefaultFont() {
         super("default", null);

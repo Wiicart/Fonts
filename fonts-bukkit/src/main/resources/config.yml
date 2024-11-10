@@ -21,8 +21,8 @@
 
 # Storage Method:
 # Options:
-# - mysql
-# - yaml
+# - yml
+# - mysql - COMING SOON, NOT CURRENTLY IMPLEMENTED!
 # If you use the MySQL option, uncomment the MySQL info and enter your information.
 storage: yml
 
