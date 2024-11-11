@@ -31,7 +31,7 @@ public class FontLoader {
                 fonts.getLogger().info("Failed to load fonts folder, disabling.");
                 fonts.getServer().getPluginManager().disablePlugin(fonts);
             }
-            saveDefaultFonts();
+            saveDefaultFiles();
             fonts.getLogger().info("Fonts folder loaded.");
         }
 
@@ -40,11 +40,12 @@ public class FontLoader {
     /**
      * Saves the fonts the plugin comes bundled with.
      */
-    private void saveDefaultFonts() {
+    private void saveDefaultFiles() {
         saveFile("italic.yml");
         saveFile("mono.yml");
         saveFile("circled.yml");
         saveFile("smallcaps.yml");
+        saveFile("cyrillic.yml");
         saveFile("README.txt");
     }
 
@@ -75,6 +76,7 @@ public class FontLoader {
 
         Font font = fontMap.get(name);
         return font != null ? font : defaultFont;
+
     }
 
     /**

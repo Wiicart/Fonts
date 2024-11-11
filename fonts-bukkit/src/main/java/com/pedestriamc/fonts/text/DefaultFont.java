@@ -13,5 +13,9 @@ public class DefaultFont extends UnicodeFont {
         return str;
     }
 
+    public String revert(String str){
+        return str;
+    }
+
 
 }
