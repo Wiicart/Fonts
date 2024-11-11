@@ -36,10 +36,16 @@ public class FontCommand implements CommandExecutor {
             messenger.sendMessage(sender, Message.PLAYER_ONLY);
             return true;
         }
-        if (!sender.hasPermission("fonts.set")) {
+
+        if (
+                forbids(sender, "*") &&
+                forbids(sender, "fonts.*") &&
+                forbids(sender, "fonts.set")
+        ) {
             messenger.sendMessage(sender, Message.NO_PERMS);
             return true;
         }
+
         if (args.length > 2) {
             messenger.sendMessage(sender, Message.TOO_MANY_ARGS);
             return true;
@@ -54,7 +60,12 @@ public class FontCommand implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("fonts.font." + font.getName())) {
+        if (
+                forbids(sender,"fonts.font." + font.getName()) &&
+                forbids(sender, "fonts.font.*") &&
+                forbids(sender, "fonts.*") &&
+                forbids(sender, "*")
+        ) {
             HashMap<String, String> placeholders = new HashMap<>();
             placeholders.put("{font_name}", font.getName());
             messenger.sendMessage(sender, Message.NO_PERMS_FONT, placeholders);
@@ -72,7 +83,12 @@ public class FontCommand implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("fonts.set.other")) {
+        if (
+                forbids(sender, "fonts.set.other") &&
+                forbids(sender, "fonts.set.*") &&
+                forbids(sender, "fonts.*") &&
+                forbids(sender, "*")
+        ) {
             messenger.sendMessage(sender, Message.NO_PERMS);
             return true;
         }
@@ -96,6 +112,9 @@ public class FontCommand implements CommandExecutor {
         messenger.sendMessage(target, Message.FONT_CHANGED, placeholders);
 
         return true;
+    }
 
+    private boolean forbids(CommandSender sender, String permission){
+        return !sender.hasPermission(permission);
     }
 }

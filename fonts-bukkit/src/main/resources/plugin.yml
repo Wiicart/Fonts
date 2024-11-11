@@ -7,5 +7,23 @@ author: wiicart
 description: Chat font customizer
 commands:
   font:
-    description: "Changes your font/"
+    description: "Changes your font"
     usage: "/font <font> <player>"
+  fonts:
+    description: "Plugin management command"
+    usage: "/fonts <reload | nothing>"
+permissions:
+  fonts.font.<font-name>:
+    description: "Allows use of a specific font"
+    default: true
+  fonts.set:
+    description: "Basic permission for changing fonts, needed to use the /font command"
+    default: true
+    children:
+      fonts.set.other: false
+  font.set.other:
+    description: "Allows using the /font command on other players"
+    default: op
+  fonts.reload:
+    description: "Allows reloading the plugin"
+    default: op

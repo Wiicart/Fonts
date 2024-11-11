@@ -3,6 +3,7 @@ package com.pedestriamc.fonts;
 import com.pedestriamc.common.message.Messenger;
 import com.pedestriamc.fonts.api.FontsProvider;
 import com.pedestriamc.fonts.commands.FontCommand;
+import com.pedestriamc.fonts.commands.FontsCommand;
 import com.pedestriamc.fonts.impl.FontsImpl;
 import com.pedestriamc.fonts.listeners.ChatListener;
 import com.pedestriamc.fonts.listeners.JoinListener;
@@ -42,7 +43,6 @@ public final class Fonts extends JavaPlugin {
     private FileConfiguration messagesConfig;
     private Messenger<Message> messenger;
     private UUID apiKey;
-    private boolean initialLoad;
 
     @Override
     public void onEnable() {
@@ -67,8 +67,7 @@ public final class Fonts extends JavaPlugin {
         HandlerList.unregisterAll(this);
         try{
             FontsProvider.unregister(this, apiKey);
-        } catch (SecurityException ignored) {
-        }
+        } catch (SecurityException ignored) {}
         log("Fonts disabled.");
     }
 
@@ -95,7 +94,6 @@ public final class Fonts extends JavaPlugin {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void setupFiles() {
         File usersFile = new File(getDataFolder(), "users.yml");
-        initialLoad = usersFile.exists();
         if (!usersFile.exists()) {
             usersFile.getParentFile().mkdirs();
             saveResource("users.yml", false);
@@ -111,14 +109,19 @@ public final class Fonts extends JavaPlugin {
     }
 
     private void createObjects() {
+        String prefix = getMessagesConfig().getString("prefix");
+        if(prefix == null){
+            prefix = "&8[&cFonts&8] &f";
+        }
+        messenger = new Messenger<>(getMessagesConfig(), prefix, Message.class);
         fontLoader = new FontLoader(this);
-        messenger = new Messenger<>(getMessagesConfig(), getMessagesConfig().getString("prefix", "&8[&cFonts&8] &f"), Message.class);
         userUtil = new YamlUserUtil(this);
     }
 
     @SuppressWarnings("ConstantConditions")
     private void registerClasses() {
         getCommand("font").setExecutor(new FontCommand(this));
+        getCommand("fonts").setExecutor(new FontsCommand(this));
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
         getServer().getPluginManager().registerEvents(new LeaveListener(this), this);
@@ -173,10 +176,6 @@ public final class Fonts extends JavaPlugin {
     @SuppressWarnings("unused")
     public short getVersionNum(){
         return versionNum;
-    }
-
-    public boolean isInitialLoad(){
-        return initialLoad;
     }
 
 }

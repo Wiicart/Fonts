@@ -49,11 +49,21 @@ no-perms-font: "&fYou don't have permission to use the &7{font_name} &ffont."
 # Font changed message:
 # Available placeholders:
 # - {font_name}
-# - {user} (user of the player whos font is being changed.
+# - {user} (user of the player whose font is being changed.
 font-changed: "&fYour font has been changed to &7{font_name}&f."
 
 # Font changed for other player message:
 # Available placeholders:
 # - {font_name}
-# - {user} (user of the player whos font is being changed.
+# - {user} (user of the player whose font is being changed.
 font-changed-other: "&7{user}&f's font has been changed to &7{font_name}&f."
+
+# Message sent when plugin is reloaded:
+# Available placeholders:
+# {version}
+reloaded: "&fFonts version &7{version} &freloaded."
+
+# Plugin version message:
+# Available placeholders:
+# {version}
+version: "&fRunning &cFonts &fversion &7{version}&f."
