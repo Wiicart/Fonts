@@ -46,6 +46,10 @@ public class FontLoader {
         saveFile("circled.yml");
         saveFile("smallcaps.yml");
         saveFile("cyrillic.yml");
+        saveFile("cyrillic_bu.yml");
+        saveFile("cyrillic_by.yml");
+        saveFile("cyrillic_ru.yml");
+        saveFile("cyrillic_ua.yml");
         saveFile("README.txt");
     }
 

@@ -47,10 +47,10 @@ public class YamlUserUtil implements UserUtil{
         String fontName = config.getString("users." + player.getUniqueId() + "active-font");
 
         if (fontName == null) {
-            return new User(player, defaultFont);
+            return new User(player, defaultFont, this);
         }
 
-        return new User(player, fontLoader.getFont(fontName));
+        return new User(player, fontLoader.getFont(fontName), this);
     }
 
     @Override

@@ -14,16 +14,14 @@ public class User implements FontsUser {
     private final UUID uuid;
     private final Player player;
     private Font activeFont;
+    private final UserUtil userUtil;
 
-    public User(Player player) {
-        this(player, null);
-    }
-
-    public User(Player player, Font activeFont) {
+    public User(Player player, Font activeFont, UserUtil userUtil) {
         this.name = player.getName();
         this.player = player;
         this.uuid = player.getUniqueId();
         this.activeFont = activeFont;
+        this.userUtil = userUtil;
     }
 
     public Map<String, String> getDataMap() {
@@ -42,6 +40,7 @@ public class User implements FontsUser {
 
     public void setFont(Font activeFont) {
         this.activeFont = activeFont;
+        userUtil.saveUser(this);
 
     }
 

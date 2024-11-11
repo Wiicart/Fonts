@@ -9,6 +9,7 @@ import com.pedestriamc.fonts.listeners.ChatListener;
 import com.pedestriamc.fonts.listeners.JoinListener;
 import com.pedestriamc.fonts.listeners.LeaveListener;
 import com.pedestriamc.fonts.message.Message;
+import com.pedestriamc.fonts.tabcompleters.FontTabCompleter;
 import com.pedestriamc.fonts.text.FontLoader;
 import com.pedestriamc.fonts.users.User;
 import com.pedestriamc.fonts.users.UserUtil;
@@ -121,6 +122,7 @@ public final class Fonts extends JavaPlugin {
     @SuppressWarnings("ConstantConditions")
     private void registerClasses() {
         getCommand("font").setExecutor(new FontCommand(this));
+        getCommand("font").setTabCompleter(new FontTabCompleter(this));
         getCommand("fonts").setExecutor(new FontsCommand(this));
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
@@ -136,10 +138,6 @@ public final class Fonts extends JavaPlugin {
         metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new SimplePie("distributor", this::getDistributor));
     }
-
-
-
-
 
     // All getter methods from this point on
 
