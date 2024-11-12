@@ -2,6 +2,7 @@ package com.pedestriamc.fonts.listeners;
 
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.users.UserUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,5 +25,11 @@ public class ChatListener implements Listener {
                 .getFont()
                 .translate(event.getMessage())
         );
+
+        Bukkit.getLogger().info(userMap
+                .getUser(event.getPlayer())
+                .getFont()
+                .revert(event.getMessage()));
+
     }
 }

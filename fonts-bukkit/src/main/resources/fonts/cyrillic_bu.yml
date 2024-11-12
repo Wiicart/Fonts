@@ -1,4 +1,5 @@
 # Bulgarian-specific Latin to Cyrillic Mapping
+textured: false
 font:
   a: а
   b: б

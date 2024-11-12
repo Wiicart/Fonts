@@ -1,9 +1,9 @@
 package com.pedestriamc.fonts.text;
 
+import com.pedestriamc.common.util.UnrestrictedBidiMap;
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.api.Font;
 import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -61,7 +61,7 @@ public class FontLoader {
         try {
             fonts.saveResource("fonts/" + file, false);
         } catch (Exception e) {
-            fonts.getLogger().info("Failed to save default font '" + file + "'");
+            fonts.getLogger().info("Failed to save file '" + file + "'");
         }
     }
 
@@ -91,7 +91,7 @@ public class FontLoader {
      */
     private Font loadFont(String name) {
 
-        if (name.equals("default")) {
+        if (name.equalsIgnoreCase("default")) {
             return defaultFont;
         }
 
@@ -105,10 +105,12 @@ public class FontLoader {
                     fonts.getLogger().info("Unable to load font '" + name + "', improper formatting.");
                     return null;
                 }
-                BidiMap<Character, String> map = new DualHashBidiMap<>();
+                BidiMap<Character, String> map = new UnrestrictedBidiMap<>();
                 for (String str : section.getKeys(false)) {
                     if (str.length() == 1) {
                         map.put(str.charAt(0), section.getString(str));
+                    } else {
+                        fonts.getLogger().info("Keys for fonts must be one character.");
                     }
                 }
                 Font font = new UnicodeFont(name, map);
@@ -123,7 +125,7 @@ public class FontLoader {
         return defaultFont;
     }
 
-    public DefaultFont getDefaultFont(){
+    public DefaultFont getDefaultFont() {
         return (DefaultFont) defaultFont;
     }
 

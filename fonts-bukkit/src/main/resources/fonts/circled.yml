@@ -1,4 +1,5 @@
 # Unicode "Circled Latin Letters" Font
+textured: false
 font:
   a: ⓐ
   b: ⓑ

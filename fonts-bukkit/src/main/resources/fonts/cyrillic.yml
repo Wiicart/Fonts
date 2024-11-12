@@ -1,4 +1,5 @@
 # ISO 9 Latin to Cyrillic Font Mapping
+textured: false
 font:
   a: а
   b: б

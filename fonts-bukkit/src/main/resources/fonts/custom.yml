@@ -1,4 +1,5 @@
 # Updated custom texture font with symbols
+textured: true
 font:
   ' ': "\uE000"
   '!': "\uE001"

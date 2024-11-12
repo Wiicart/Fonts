@@ -1,31 +1,6 @@
 # Unicode "Latin Small Capital Letters" Font
+textured: false
 font:
-  a: ᴀ
-  b: ʙ
-  c: ᴄ
-  d: ᴅ
-  e: ᴇ
-  f: ꜰ
-  g: ɢ
-  h: ʜ
-  i: ɪ
-  j: ᴊ
-  k: ᴋ
-  l: ʟ
-  m: ᴍ
-  n: ɴ
-  o: ᴏ
-  p: ᴘ
-  q: q
-  r: ʀ
-  s: ꜱ
-  t: ᴛ
-  u: ᴜ
-  v: ᴠ
-  w: ᴡ
-  x: x
-  y: ʏ
-  z: ᴢ
   A: ᴀ
   B: ʙ
   C: ᴄ
@@ -52,3 +27,29 @@ font:
   X: x
   Y: ʏ
   Z: ᴢ
+  a: ᴀ
+  b: ʙ
+  c: ᴄ
+  d: ᴅ
+  e: ᴇ
+  f: ꜰ
+  g: ɢ
+  h: ʜ
+  i: ɪ
+  j: ᴊ
+  k: ᴋ
+  l: ʟ
+  m: ᴍ
+  n: ɴ
+  o: ᴏ
+  p: ᴘ
+  q: q
+  r: ʀ
+  s: ꜱ
+  t: ᴛ
+  u: ᴜ
+  v: ᴠ
+  w: ᴡ
+  x: x
+  y: ʏ
+  z: ᴢ

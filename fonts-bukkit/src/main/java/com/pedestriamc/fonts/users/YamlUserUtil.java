@@ -3,13 +3,14 @@ package com.pedestriamc.fonts.users;
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.text.DefaultFont;
 import com.pedestriamc.fonts.text.FontLoader;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class YamlUserUtil implements UserUtil{
+public class YamlUserUtil implements UserUtil {
 
     private final UserMap userMap;
     private final FileConfiguration config;
@@ -30,8 +31,10 @@ public class YamlUserUtil implements UserUtil{
     @Override
     public void saveUser(@NotNull User user) {
         Map<String, String> map = user.getDataMap();
+        Bukkit.getLogger().info(map.toString());
         for (Map.Entry<String, String> entry : map.entrySet()) {
             config.set("users." + user.getUuid() + entry.getKey(), entry.getValue());
+            Bukkit.getLogger().info(entry.toString());
         }
     }
 

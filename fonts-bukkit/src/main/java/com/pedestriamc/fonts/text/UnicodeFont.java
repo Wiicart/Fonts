@@ -18,6 +18,7 @@ public class UnicodeFont implements Font {
         return name;
     }
 
+    @Override
     public String translate(@NotNull String str) {
         StringBuilder sb = new StringBuilder();
         for (char c : str.toCharArray()) {
@@ -31,6 +32,7 @@ public class UnicodeFont implements Font {
         return sb.toString();
     }
 
+    @Override
     public String revert(String str) {
         StringBuilder sb = new StringBuilder();
         for (char c : str.toCharArray()) {

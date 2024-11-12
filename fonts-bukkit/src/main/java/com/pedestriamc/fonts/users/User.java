@@ -2,6 +2,7 @@ package com.pedestriamc.fonts.users;
 
 import com.pedestriamc.fonts.api.Font;
 import com.pedestriamc.fonts.api.FontsUser;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public class User implements FontsUser {
     public void setFont(Font activeFont) {
         this.activeFont = activeFont;
         userUtil.saveUser(this);
+        Bukkit.getLogger().info("attempting t osave");
 
     }
 
