@@ -24,6 +24,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 public final class Fonts extends JavaPlugin {
@@ -41,6 +42,7 @@ public final class Fonts extends JavaPlugin {
     private FontLoader fontLoader;
     private UserUtil userUtil;
     private FileConfiguration usersConfig;
+    private File usersFile;
     private FileConfiguration messagesConfig;
     private Messenger<Message> messenger;
     private UUID apiKey;
@@ -94,7 +96,7 @@ public final class Fonts extends JavaPlugin {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void setupFiles() {
-        File usersFile = new File(getDataFolder(), "users.yml");
+        usersFile = new File(getDataFolder(), "users.yml");
         if (!usersFile.exists()) {
             usersFile.getParentFile().mkdirs();
             saveResource("users.yml", false);
@@ -141,7 +143,7 @@ public final class Fonts extends JavaPlugin {
 
     // All getter methods from this point on
 
-    public FileConfiguration getUsersFile() {
+    public FileConfiguration getUsersFileConfig() {
         return usersConfig;
     }
 
@@ -161,6 +163,14 @@ public final class Fonts extends JavaPlugin {
         return messenger;
     }
 
+    public void saveUsersFile() {
+        try{
+            getUsersFileConfig().save(usersFile);
+        }catch (IOException e){
+            getLogger().info("Failed to save users file.");
+        }
+    }
+
     @SuppressWarnings("unused")
     public String getDistributor(){
         return distributor;
@@ -175,5 +185,6 @@ public final class Fonts extends JavaPlugin {
     public short getVersionNum(){
         return versionNum;
     }
+
 
 }

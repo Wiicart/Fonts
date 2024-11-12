@@ -25,11 +25,5 @@ public class ChatListener implements Listener {
                 .getFont()
                 .translate(event.getMessage())
         );
-
-        Bukkit.getLogger().info(userMap
-                .getUser(event.getPlayer())
-                .getFont()
-                .revert(event.getMessage()));
-
     }
 }

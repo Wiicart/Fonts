@@ -3,7 +3,6 @@ package com.pedestriamc.fonts.users;
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.text.DefaultFont;
 import com.pedestriamc.fonts.text.FontLoader;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,14 +11,16 @@ import java.util.Map;
 
 public class YamlUserUtil implements UserUtil {
 
+    private final Fonts fonts;
     private final UserMap userMap;
     private final FileConfiguration config;
     private final FontLoader fontLoader;
     private final DefaultFont defaultFont;
 
     public YamlUserUtil(@NotNull Fonts fonts) {
+        this.fonts = fonts;
         userMap = new UserMap();
-        config = fonts.getUsersFile();
+        config = fonts.getUsersFileConfig();
         fontLoader = fonts.getFontLoader();
         defaultFont = fontLoader.getDefaultFont();
     }
@@ -31,23 +32,21 @@ public class YamlUserUtil implements UserUtil {
     @Override
     public void saveUser(@NotNull User user) {
         Map<String, String> map = user.getDataMap();
-        Bukkit.getLogger().info(map.toString());
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            config.set("users." + user.getUuid() + entry.getKey(), entry.getValue());
-            Bukkit.getLogger().info(entry.toString());
+            config.set("users." + user.getUuid() + "." + entry.getKey(), entry.getValue());
         }
+        fonts.saveUsersFile();
     }
 
     /**
      * Loads a User from the users.yml file.
      * Returns a new User with font DefaultFont if user not found.
-     *
      * @param player The player of the User to load.
      * @return A User
      */
     @Override
     public User loadUser(@NotNull Player player) {
-        String fontName = config.getString("users." + player.getUniqueId() + "active-font");
+        String fontName = config.getString("users." + player.getUniqueId() + ".font");
 
         if (fontName == null) {
             return new User(player, defaultFont, this);
