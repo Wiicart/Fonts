@@ -1,7 +1,6 @@
 package com.pedestriamc.fonts.tabcompleters;
 
 import com.google.common.collect.ImmutableList;
-import com.pedestriamc.fonts.Fonts;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
