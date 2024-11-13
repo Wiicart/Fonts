@@ -40,6 +40,7 @@ public class FontTabCompleter implements TabCompleter
                     it.set(next);
                 }
             }
+            arrayList.add("default");
             fontList = ImmutableList.copyOf(arrayList);
         }
 

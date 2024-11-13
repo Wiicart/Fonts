@@ -16,6 +16,9 @@ permissions:
   fonts.font.<font-name>:
     description: "Allows use of a specific font"
     default: true
+  fonts.font.*:
+    description: "Allows using all Fonts, true by default."
+    default: true
   fonts.set:
     description: "Basic permission for changing fonts, needed to use the /font command"
     default: true

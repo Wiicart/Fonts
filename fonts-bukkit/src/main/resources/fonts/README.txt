@@ -12,13 +12,18 @@
     [INFORMATION]
     Fonts primarily functions by replacing player text with Unicode equivalents.
 
-    This plugin comes pre-packaged with 4 fonts by default:
+    This plugin comes pre-packaged with 9 fonts by default:
       - circled
       - italic
       - mono
       - smallcaps
+      - cyrillic
+      - cyrillic_ru
+      - cyrillic_ua
+      - cyrillic_by
+      - cyrillic_bu
 
-    You may add more fonts by adding more yml files to the "Fonts/fonts" folder, or the folder this file is in.
+    You may add more fonts by adding more yml files to the "Fonts/fonts" folder, that is the folder this file is in.
     The way the names are determined in-game is by the name of the file, for example:
     circled.yml -> a font named "circled" in-game.
 

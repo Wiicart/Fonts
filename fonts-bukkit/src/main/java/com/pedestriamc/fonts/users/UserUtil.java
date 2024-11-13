@@ -1,6 +1,5 @@
 package com.pedestriamc.fonts.users;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 

@@ -10,6 +10,7 @@ import com.pedestriamc.fonts.listeners.JoinListener;
 import com.pedestriamc.fonts.listeners.LeaveListener;
 import com.pedestriamc.fonts.message.Message;
 import com.pedestriamc.fonts.tabcompleters.FontTabCompleter;
+import com.pedestriamc.fonts.tabcompleters.FontsTabCompleter;
 import com.pedestriamc.fonts.text.FontLoader;
 import com.pedestriamc.fonts.users.User;
 import com.pedestriamc.fonts.users.UserUtil;
@@ -23,8 +24,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.UUID;
 
 public final class Fonts extends JavaPlugin {
@@ -56,6 +61,7 @@ public final class Fonts extends JavaPlugin {
         loadUsers();
         loadApi();
         setupMetrics();
+        checkUpdate();
         log("Fonts version " + getVersion() + " loaded.");
     }
 
@@ -79,7 +85,7 @@ public final class Fonts extends JavaPlugin {
         onEnable();
     }
 
-    public void loadUsers(){
+    private void loadUsers(){
         if(userUtil.getUserMap().isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()){
             for(Player p : Bukkit.getOnlinePlayers()){
                 User user = userUtil.loadUser(p);
@@ -88,7 +94,25 @@ public final class Fonts extends JavaPlugin {
         }
     }
 
-    public void loadApi(){
+    private void checkUpdate(){
+        try{
+            HttpsURLConnection connection = (HttpsURLConnection) new URL("https://www.wiicart.net/fonts/version.txt").openConnection();
+            connection.setRequestMethod("GET");
+            String raw = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
+            short latest = Short.parseShort(raw);
+            if(latest > versionNum){
+                Bukkit.getLogger().info("+-------------[Fonts]-------------+");
+                Bukkit.getLogger().info("|    A new update is available!   |");
+                Bukkit.getLogger().info("|          Download at:           |");
+                Bukkit.getLogger().info("|    https://wiicart.net/fonts    |");
+                Bukkit.getLogger().info("+---------------------------------+");
+            }
+        } catch(IOException a){
+            Bukkit.getLogger().info("[Strings] Unable to check for updates.");
+        }
+    }
+
+    private void loadApi(){
         FontsImpl fontsImpl = new FontsImpl(this);
         apiKey = UUID.randomUUID();
         FontsProvider.register(fontsImpl, this, apiKey);
@@ -126,6 +150,7 @@ public final class Fonts extends JavaPlugin {
         getCommand("font").setExecutor(new FontCommand(this));
         getCommand("font").setTabCompleter(new FontTabCompleter(this));
         getCommand("fonts").setExecutor(new FontsCommand(this));
+        getCommand("fonts").setTabCompleter(new FontsTabCompleter());
         getServer().getPluginManager().registerEvents(new ChatListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
         getServer().getPluginManager().registerEvents(new LeaveListener(this), this);

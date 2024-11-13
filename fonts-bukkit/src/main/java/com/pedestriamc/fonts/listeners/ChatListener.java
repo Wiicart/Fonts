@@ -2,7 +2,6 @@ package com.pedestriamc.fonts.listeners;
 
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.users.UserUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
