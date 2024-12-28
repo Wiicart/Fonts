@@ -28,7 +28,7 @@ public class FontTabCompleter implements TabCompleter
         String[] list = fontsFolder.list();
         if(list == null){
             fontList = ImmutableList.of();
-        }else{
+        } else {
             ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(list));
             ListIterator<String> it = arrayList.listIterator();
             while(it.hasNext()){

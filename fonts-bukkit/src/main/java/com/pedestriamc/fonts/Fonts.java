@@ -35,7 +35,7 @@ import java.util.UUID;
 public final class Fonts extends JavaPlugin {
 
     @SuppressWarnings("FieldCanBeLocal")
-    private final String distributor = "modrinth";
+    private final String distributor = "hangar";
     @SuppressWarnings("FieldCanBeLocal")
     private final String version = "1.0";
     @SuppressWarnings("FieldCanBeLocal")
@@ -196,19 +196,28 @@ public final class Fonts extends JavaPlugin {
         }
     }
 
-    @SuppressWarnings("unused")
-    public String getDistributor(){
+    public String getDistributor() {
         return distributor;
     }
 
-    @SuppressWarnings("unused")
-    public String getVersion(){
+    public String getVersion() {
         return version;
     }
 
     @SuppressWarnings("unused")
-    public short getVersionNum(){
+    public short getVersionNum() {
         return versionNum;
+    }
+
+    public User getUser(Player player) {
+        return userUtil
+                .getUserMap()
+                .getUser(player);
+    }
+
+    @SuppressWarnings("unused")
+    public void removeUser(Player player) {
+        userUtil.getUserMap().removeUser(player);
     }
 
 

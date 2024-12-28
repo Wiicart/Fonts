@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChatListener implements Listener {
 
-    private final UserUtil.UserMap userMap;
+    private final Fonts fonts;
 
     public ChatListener(@NotNull Fonts fonts) {
-        userMap = fonts.getUserUtil().getUserMap();
+        this.fonts = fonts;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEvent(@NotNull AsyncPlayerChatEvent event) {
         event.setMessage(
-                userMap
+                fonts
                 .getUser(event.getPlayer())
                 .getFont()
                 .translate(event.getMessage())

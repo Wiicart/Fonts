@@ -26,6 +26,6 @@ public class JoinListener implements Listener {
         if (!(user.getFont() instanceof DefaultFont)) {
             util.saveUser(user);
         }
-        //player.setResourcePack("https://github.com/Wiicart/wiicart.net/raw/refs/heads/main/fonts/test/gon.zip");
+        // player.setResourcePack("https://cdn.modrinth.com/data/L0iIXINl/versions/5cd6k8ol/Serified%20Font%20v1.1%20f1-34.zip");
     }
 }

@@ -41,16 +41,14 @@ public class FontLoader {
      * Saves the fonts the plugin comes bundled with.
      */
     private void saveDefaultFiles() {
-        saveFile("italic.yml");
+        saveFile("README.txt");
         saveFile("mono.yml");
         saveFile("circled.yml");
         saveFile("smallcaps.yml");
         saveFile("cyrillic.yml");
-        saveFile("cyrillic_bu.yml");
-        saveFile("cyrillic_by.yml");
-        saveFile("cyrillic_ru.yml");
-        saveFile("cyrillic_ua.yml");
-        saveFile("README.txt");
+        saveFile("fraktur.yml");
+        saveFile("script.yml");
+        saveFile("script_bold.yml");
     }
 
     /**
