@@ -1,16 +1,27 @@
 package com.pedestriamc.fonts.message;
 
-public enum Message {
+import com.pedestriamc.common.message.CommonMessage;
 
-    NO_PERMS,
-    TOO_MANY_ARGS,
-    PLAYER_ONLY,
-    FONT_NOT_FOUND,
-    PLAYER_NOT_FOUND,
-    NO_PERMS_FONT,
-    FONT_CHANGED,
-    FONT_CHANGED_OTHER,
-    RELOADED,
-    VERSION
+public enum Message implements CommonMessage {
 
+    NO_PERMS("no-perms"),
+    TOO_MANY_ARGS("too-many-args"),
+    PLAYER_ONLY("player-only"),
+    FONT_NOT_FOUND("font-not-found"),
+    PLAYER_NOT_FOUND("player-not-found"),
+    NO_PERMS_FONT("no-perms-font"),
+    FONT_CHANGED("font-changed"),
+    FONT_CHANGED_OTHER("font-changed-other"),
+    RELOADED("reloaded"),
+    VERSION("version"),;
+
+    private final String key;
+
+    Message(String key) {
+        this.key = key;
+    }
+    @Override
+    public String getKey() {
+        return key;
+    }
 }

@@ -9,11 +9,12 @@ public class DefaultFont extends UnicodeFont {
     }
 
     @Override
-    public String translate(@NotNull String str){
+    public String translate(@NotNull String str) {
         return str;
     }
 
-    public String revert(String str){
+    @Override
+    public String revert(String str) {
         return str;
     }
 

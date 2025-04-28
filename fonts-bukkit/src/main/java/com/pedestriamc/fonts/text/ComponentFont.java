@@ -6,7 +6,7 @@ public class ComponentFont implements Font {
 
     private final String name;
 
-    public ComponentFont(String name){
+    public ComponentFont(String name) {
         this.name = name;
     }
 

@@ -114,7 +114,7 @@ public class FontCommand implements CommandExecutor {
         return true;
     }
 
-    private boolean forbids(CommandSender sender, String permission){
+    private boolean forbids(CommandSender sender, String permission) {
         return !sender.hasPermission(permission);
     }
 }

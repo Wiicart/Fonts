@@ -1,6 +1,5 @@
 package com.pedestriamc.fonts.tabcompleters;
 
-import com.google.common.collect.ImmutableList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -11,10 +10,10 @@ import java.util.List;
 
 public class FontsTabCompleter implements TabCompleter {
 
-    private final ImmutableList<String> suggestions;
+    private final List<String> suggestions;
 
     public FontsTabCompleter() {
-        suggestions = ImmutableList.of("reload", "version");
+        suggestions = List.of("reload", "version");
     }
 
     @Override

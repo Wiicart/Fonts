@@ -6,14 +6,14 @@ import com.pedestriamc.fonts.text.FontLoader;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-
+@SuppressWarnings("all")
 public class MySqlUserUtil implements UserUtil{
 
     private final UserMap userMap;
     private final FontLoader fontLoader;
     private final DefaultFont defaultFont;
 
-    public MySqlUserUtil(@NotNull Fonts fonts) throws Exception{
+    public MySqlUserUtil(@NotNull Fonts fonts) throws Exception {
         userMap = new UserMap();
         fontLoader = fonts.getFontLoader();
         defaultFont = fontLoader.getDefaultFont();

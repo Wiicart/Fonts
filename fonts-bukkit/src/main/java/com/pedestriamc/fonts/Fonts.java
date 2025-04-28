@@ -34,12 +34,11 @@ import java.util.UUID;
 
 public final class Fonts extends JavaPlugin {
 
+    private static final String DISTRIBUTOR = "hangar";
     @SuppressWarnings("FieldCanBeLocal")
-    private final String distributor = "hangar";
+    private static final String VERSION = "1.0";
     @SuppressWarnings("FieldCanBeLocal")
-    private final String version = "1.0";
-    @SuppressWarnings("FieldCanBeLocal")
-    private final short versionNum = 1;
+    private static final short VERSION_NUM = 1;
 
     @SuppressWarnings("FieldCanBeLocal")
     private Metrics metrics;
@@ -62,7 +61,7 @@ public final class Fonts extends JavaPlugin {
         loadApi();
         setupMetrics();
         checkUpdate();
-        log("Fonts version " + getVersion() + " loaded.");
+        log("Fonts version " + getVERSION() + " loaded.");
     }
 
     @Override
@@ -74,45 +73,45 @@ public final class Fonts extends JavaPlugin {
         this.messagesConfig = null;
         this.messenger = null;
         HandlerList.unregisterAll(this);
-        try{
+        try {
             FontsProvider.unregister(this, apiKey);
         } catch (SecurityException ignored) {}
         log("Fonts disabled.");
     }
 
-    public void reload(){
+    public void reload() {
         onDisable();
         onEnable();
     }
 
-    private void loadUsers(){
-        if(userUtil.getUserMap().isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()){
-            for(Player p : Bukkit.getOnlinePlayers()){
+    private void loadUsers() {
+        if(userUtil.getUserMap().isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()) {
+            for(Player p : Bukkit.getOnlinePlayers()) {
                 User user = userUtil.loadUser(p);
                 userUtil.getUserMap().addUser(user);
             }
         }
     }
 
-    private void checkUpdate(){
-        try{
+    private void checkUpdate() {
+        try {
             HttpsURLConnection connection = (HttpsURLConnection) new URL("https://www.wiicart.net/fonts/version.txt").openConnection();
             connection.setRequestMethod("GET");
             String raw = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
             short latest = Short.parseShort(raw);
-            if(latest > versionNum){
+            if(latest > VERSION_NUM) {
                 Bukkit.getLogger().info("+-------------[Fonts]-------------+");
                 Bukkit.getLogger().info("|    A new update is available!   |");
                 Bukkit.getLogger().info("|          Download at:           |");
                 Bukkit.getLogger().info("|    https://wiicart.net/fonts    |");
                 Bukkit.getLogger().info("+---------------------------------+");
             }
-        } catch(IOException a){
+        } catch(IOException a) {
             Bukkit.getLogger().info("[Strings] Unable to check for updates.");
         }
     }
 
-    private void loadApi(){
+    private void loadApi() {
         FontsImpl fontsImpl = new FontsImpl(this);
         apiKey = UUID.randomUUID();
         FontsProvider.register(fontsImpl, this, apiKey);
@@ -156,11 +155,11 @@ public final class Fonts extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LeaveListener(this), this);
     }
 
-    private void log(String msg){
+    private void log(String msg) {
         getLogger().info(msg);
     }
 
-    private void setupMetrics(){
+    private void setupMetrics() {
         int pluginId = 23619;
         metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new SimplePie("distributor", this::getDistributor));
@@ -197,16 +196,16 @@ public final class Fonts extends JavaPlugin {
     }
 
     public String getDistributor() {
-        return distributor;
+        return DISTRIBUTOR;
     }
 
-    public String getVersion() {
-        return version;
+    public String getVERSION() {
+        return VERSION;
     }
 
     @SuppressWarnings("unused")
     public short getVersionNum() {
-        return versionNum;
+        return VERSION_NUM;
     }
 
     public User getUser(Player player) {

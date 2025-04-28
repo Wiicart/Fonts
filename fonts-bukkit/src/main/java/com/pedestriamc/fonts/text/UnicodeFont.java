@@ -20,7 +20,15 @@ public class UnicodeFont implements Font {
 
     @Override
     public String translate(@NotNull String str) {
+
+        String temp = "";
+        if(str.charAt(0) == '§') {
+            temp = str.substring(0, 2);
+            str = str.substring(2);
+        }
+
         StringBuilder sb = new StringBuilder();
+        sb.append(temp);
         for (char c : str.toCharArray()) {
             String replacement = map.get(c);
             if (replacement != null) {
@@ -54,5 +62,10 @@ public class UnicodeFont implements Font {
     @Override
     public int hashCode() {
         return map.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
     }
 }
