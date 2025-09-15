@@ -5,17 +5,18 @@ import com.pedestriamc.fonts.users.UserUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class LeaveListener implements Listener {
 
     private final UserUtil util;
 
-    public LeaveListener(Fonts fonts) {
+    public LeaveListener(@NotNull Fonts fonts) {
         util = fonts.getUserUtil();
     }
 
     @EventHandler
-    public void onEvent(PlayerQuitEvent event) {
-        util.getUserMap().removeUser(event.getPlayer());
+    public void onEvent(@NotNull PlayerQuitEvent event) {
+        util.removeUser(event.getPlayer().getUniqueId());
     }
 }

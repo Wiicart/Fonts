@@ -1,8 +1,8 @@
 package com.pedestriamc.fonts;
 
 import com.pedestriamc.common.message.Messenger;
-import com.pedestriamc.fonts.api.FontsProvider;
-import com.pedestriamc.fonts.commands.FontCommand;
+import com.pedestriamc.fonts.api.FontsRegistrar;
+import com.pedestriamc.fonts.commands.font.FontCommand;
 import com.pedestriamc.fonts.commands.FontsCommand;
 import com.pedestriamc.fonts.impl.FontsImpl;
 import com.pedestriamc.fonts.listeners.ChatListener;
@@ -12,9 +12,9 @@ import com.pedestriamc.fonts.message.Message;
 import com.pedestriamc.fonts.tabcompleters.FontTabCompleter;
 import com.pedestriamc.fonts.tabcompleters.FontsTabCompleter;
 import com.pedestriamc.fonts.text.FontLoader;
-import com.pedestriamc.fonts.users.User;
 import com.pedestriamc.fonts.users.UserUtil;
 import com.pedestriamc.fonts.users.YamlUserUtil;
+import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -23,6 +23,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -30,18 +31,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.UUID;
 
 public final class Fonts extends JavaPlugin {
 
-    private static final String DISTRIBUTOR = "hangar";
-    @SuppressWarnings("FieldCanBeLocal")
-    private static final String VERSION = "1.0";
-    @SuppressWarnings("FieldCanBeLocal")
-    private static final short VERSION_NUM = 1;
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private Metrics metrics;
+    public static final String DISTRIBUTOR = "hangar";
+    public static final String VERSION = "1.2";
+    public static final short VERSION_NUM = 2;
 
     private FontLoader fontLoader;
     private UserUtil userUtil;
@@ -49,7 +44,12 @@ public final class Fonts extends JavaPlugin {
     private File usersFile;
     private FileConfiguration messagesConfig;
     private Messenger<Message> messenger;
-    private UUID apiKey;
+
+    @Override
+    public void onLoad() {
+        updateConfigs();
+        reloadConfig();
+    }
 
     @Override
     public void onEnable() {
@@ -61,22 +61,18 @@ public final class Fonts extends JavaPlugin {
         loadApi();
         setupMetrics();
         checkUpdate();
-        log("Fonts version " + getVERSION() + " loaded.");
+        log("Fonts version " + VERSION + " loaded.");
     }
 
     @Override
     public void onDisable() {
-        userUtil.getUserMap().clear();
         this.fontLoader = null;
         this.userUtil = null;
         this.usersConfig = null;
         this.messagesConfig = null;
         this.messenger = null;
         HandlerList.unregisterAll(this);
-        try {
-            FontsProvider.unregister(this, apiKey);
-        } catch (SecurityException ignored) {}
-        log("Fonts disabled.");
+        FontsRegistrar.unregister();
     }
 
     public void reload() {
@@ -85,10 +81,9 @@ public final class Fonts extends JavaPlugin {
     }
 
     private void loadUsers() {
-        if(userUtil.getUserMap().isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()) {
-            for(Player p : Bukkit.getOnlinePlayers()) {
-                User user = userUtil.loadUser(p);
-                userUtil.getUserMap().addUser(user);
+        if (userUtil.isEmpty() && !Bukkit.getOnlinePlayers().isEmpty()) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                userUtil.loadUser(p.getUniqueId());
             }
         }
     }
@@ -112,9 +107,7 @@ public final class Fonts extends JavaPlugin {
     }
 
     private void loadApi() {
-        FontsImpl fontsImpl = new FontsImpl(this);
-        apiKey = UUID.randomUUID();
-        FontsProvider.register(fontsImpl, this, apiKey);
+        FontsRegistrar.register(new FontsImpl(this));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -155,17 +148,37 @@ public final class Fonts extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LeaveListener(this), this);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void log(String msg) {
         getLogger().info(msg);
     }
 
     private void setupMetrics() {
         int pluginId = 23619;
-        metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SimplePie("distributor", this::getDistributor));
+        new Metrics(this, pluginId)
+                .addCustomChart(new SimplePie("distributor", this::getDistributor));
     }
 
-    // All getter methods from this point on
+    private void updateConfig(@NotNull String name) {
+        File file = new File(getDataFolder(), name);
+        if (file.exists()) {
+            try {
+                ConfigUpdater.update(this, name, file);
+            } catch(IOException e) {
+                getLogger().warning("Failed to update " + name);
+            }
+        }
+    }
+
+    private void updateConfigs() {
+        updateConfig("config.yml");
+        updateConfig("messages.yml");
+    }
+
+
+    public void async(@NotNull Runnable runnable) {
+        getServer().getScheduler().runTaskAsynchronously(this, runnable);
+    }
 
     public FileConfiguration getUsersFileConfig() {
         return usersConfig;
@@ -188,9 +201,9 @@ public final class Fonts extends JavaPlugin {
     }
 
     public void saveUsersFile() {
-        try{
+        try {
             getUsersFileConfig().save(usersFile);
-        }catch (IOException e){
+        } catch(IOException e) {
             getLogger().info("Failed to save users file.");
         }
     }
@@ -198,26 +211,5 @@ public final class Fonts extends JavaPlugin {
     public String getDistributor() {
         return DISTRIBUTOR;
     }
-
-    public String getVERSION() {
-        return VERSION;
-    }
-
-    @SuppressWarnings("unused")
-    public short getVersionNum() {
-        return VERSION_NUM;
-    }
-
-    public User getUser(Player player) {
-        return userUtil
-                .getUserMap()
-                .getUser(player);
-    }
-
-    @SuppressWarnings("unused")
-    public void removeUser(Player player) {
-        userUtil.getUserMap().removeUser(player);
-    }
-
 
 }

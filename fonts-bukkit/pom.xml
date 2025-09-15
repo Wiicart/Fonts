@@ -6,12 +6,12 @@
 
     <groupId>groupId</groupId>
     <artifactId>fonts-bukkit</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <parent>
         <artifactId>Fonts</artifactId>
         <groupId>com.pedestriamc</groupId>
-        <version>1.1</version>
+        <version>1.2</version>
     </parent>
 
     <properties>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.pedestriamc</groupId>
             <artifactId>fonts-api</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -44,6 +44,11 @@
             <groupId>com.pedestriamc</groupId>
             <artifactId>common</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.wiicart.commands</groupId>
+            <artifactId>cart-commands</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>

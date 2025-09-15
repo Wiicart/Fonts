@@ -6,37 +6,39 @@ import com.pedestriamc.fonts.api.FontsUser;
 import com.pedestriamc.fonts.api.Font;
 import com.pedestriamc.fonts.text.FontLoader;
 import com.pedestriamc.fonts.users.UserUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FontsImpl implements FontsAPI {
 
     private final FontLoader fontloader;
-    private final UserUtil.UserMap userMap;
+    private final UserUtil userUtil;
 
-    public FontsImpl(Fonts fonts){
+    public FontsImpl(@NotNull Fonts fonts){
         fontloader = fonts.getFontLoader();
-        userMap = fonts.getUserUtil().getUserMap();
-    }
-
-    @Override
-    public Font getFont(String name) {
-        return fontloader.getFont(name);
-    }
-
-    @Override
-    public FontsUser getUser(Player player) {
-        return userMap.getUser(player);
+        userUtil = fonts.getUserUtil();
     }
 
     @Override
     @Nullable
-    public FontsUser getUser(String name) {
-        Player player = Bukkit.getPlayer(name);
-        if(player == null){
-            return null;
-        }
-        return userMap.getUser(player);
+    public Font getFont(@NotNull String name) {
+        return fontloader.getFont(name);
     }
+
+    @Override
+    public @NotNull FontsUser getUser(@NotNull Player player) {
+        return userUtil.getUser(player.getUniqueId());
+    }
+
+    @Override
+    public @NotNull Font defaultFont() {
+        return FontLoader.defaultFont();
+    }
+
+    @Override
+    public @NotNull Font globalDefaultFont() {
+        return fontloader.globalDefault();
+    }
+
 }

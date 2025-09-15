@@ -1,80 +1,65 @@
 package com.pedestriamc.fonts.commands;
 
-import com.pedestriamc.common.commands.CommandBase;
-import com.pedestriamc.common.message.Messenger;
 import com.pedestriamc.fonts.Fonts;
 import com.pedestriamc.fonts.message.Message;
-import org.bukkit.command.Command;
+import net.wiicart.commands.command.CartCommandExecutor;
+import net.wiicart.commands.command.CommandData;
+import net.wiicart.commands.command.tree.CommandTree;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class FontsCommand extends CommandBase {
+public class FontsCommand extends CommandTree {
 
-    public FontsCommand(Fonts fonts)
-    {
-        super();
-        Map<String, CommandComponent> map = new HashMap<>();
-        map.put("VERSION", new VersionCommand(fonts));
-        map.put("V", new VersionCommand(fonts));
-        map.put("RELOAD", new ReloadCommand(fonts));
-        initialize(map, new VersionCommand(fonts));
+    private static final Map<String, String> placeholders = Map.of("{version}", Fonts.VERSION);
+
+    public FontsCommand(@NotNull Fonts fonts) {
+        super(builder()
+                .workbench(bench -> bench.store("version", () -> new VersionCommand(fonts)))
+                .executes("version")
+                .withChild("version", b -> b
+                        .executes("version")
+                        .withAliases("v")
+                )
+                .withChild("reload", b -> b.executes(new ReloadCommand(fonts)))
+                .build()
+        );
     }
 
-    protected static class ReloadCommand extends AbstractCommandComponent
-    {
-        private final Fonts fonts;
-        private final Messenger<Message> messenger;
-        Map<String, String> placeholders;
+    private static class ReloadCommand extends AbstractCommand implements CartCommandExecutor {
 
-        public ReloadCommand(Fonts fonts)
-        {
-            this.fonts = fonts;
-            messenger = fonts.getMessenger();
-            placeholders = new HashMap<>();
-            placeholders.put("{version}", fonts.getVersion());
+        ReloadCommand(@NotNull Fonts fonts) {
+            super(fonts);
         }
 
         @Override
-        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
-        {
-            if(
-                    forbids(sender, "fonts.reload") &&
-                    forbids(sender, "fonts.*") &&
-                    forbids(sender, "*")
-            ){
-                messenger.sendMessage(sender, Message.NO_PERMS);
-                return true;
+        public void onCommand(@NotNull CommandData data) {
+            CommandSender sender = data.sender();
+            if (
+                    !sender.isOp() &&
+                    !sender.hasPermission("*") &&
+                    !sender.hasPermission("fonts.*") &&
+                    !sender.hasPermission("fonts.reload")
+            ) {
+                sendMessage(sender, Message.NO_PERMS);
+                return;
             }
 
-            fonts.reload();
-            messenger.sendMessage(sender, Message.RELOADED, placeholders);
-
-            return true;
+            plugin().reload();
+            sendMessage(sender, Message.RELOADED, placeholders);
         }
-
     }
 
-    protected static class VersionCommand extends AbstractCommandComponent
-    {
+    private static class VersionCommand extends AbstractCommand implements CartCommandExecutor {
 
-        private final Messenger<Message> messenger;
-        Map<String, String> placeholders;
-
-        public VersionCommand(Fonts fonts)
-        {
-            messenger = fonts.getMessenger();
-            placeholders = new HashMap<>();
-            placeholders.put("{version}", fonts.getVersion());
+        VersionCommand(@NotNull Fonts fonts) {
+            super(fonts);
         }
 
         @Override
-        public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
-        {
-            messenger.sendMessage(sender, Message.VERSION, placeholders);
-            return true;
+        public void onCommand(@NotNull CommandData data) {
+            sendMessage(data.sender(), Message.VERSION, placeholders);
         }
 
     }

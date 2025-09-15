@@ -2,6 +2,7 @@ package com.pedestriamc.fonts.text;
 
 import com.pedestriamc.fonts.api.Font;
 import org.apache.commons.collections4.BidiMap;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 public class UnicodeFont implements Font {
@@ -14,12 +15,12 @@ public class UnicodeFont implements Font {
         this.map = map;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
     @Override
-    public String translate(@NotNull String str) {
+    public @NotNull String translate(@NotNull String str) {
 
         String temp = "";
         if(str.charAt(0) == '§') {
@@ -41,7 +42,7 @@ public class UnicodeFont implements Font {
     }
 
     @Override
-    public String revert(String str) {
+    public @NotNull String revert(@NotNull String str) {
         StringBuilder sb = new StringBuilder();
         for (char c : str.toCharArray()) {
             String replacement = String.valueOf(map.getKey(c));
@@ -55,17 +56,17 @@ public class UnicodeFont implements Font {
     }
 
     @Override
+    public boolean allows(@NotNull CommandSender sender) {
+        return sender.isOp() ||
+                sender.hasPermission("*") ||
+                sender.hasPermission("fonts.*") ||
+                sender.hasPermission("fonts.font.*") ||
+                sender.hasPermission("fonts.font." + getName());
+    }
+
+    @Override
     public String toString() {
         return name;
     }
 
-    @Override
-    public int hashCode() {
-        return map.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj;
-    }
 }

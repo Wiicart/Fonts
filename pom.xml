@@ -6,7 +6,7 @@
 
     <groupId>com.pedestriamc</groupId>
     <artifactId>Fonts</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <modules>
         <module>fonts-api</module>
         <module>fonts-bukkit</module>

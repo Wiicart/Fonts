@@ -7,21 +7,43 @@ import org.apache.commons.collections4.BidiMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
+@SuppressWarnings("unused")
 public class FontLoader {
 
+    private static final Font DEFAULT_FONT = new DefaultFont();
+
     private final Fonts fonts;
-    private final Font defaultFont;
     private final HashMap<String, Font> fontMap;
     private final File fontsFolder;
 
-    public FontLoader(Fonts fonts) {
+    private final Font globalDefault;
+
+    // Provides the default font, meaning what it takes in will be put out
+    @NotNull
+    @SuppressWarnings("unused")
+    public static Font defaultFont() {
+        return DEFAULT_FONT;
+    }
+
+    // Checks if it's a default like that provided from defaultFont().
+    public static boolean isDefault(@Nullable Font font) {
+        if (font == null) {
+            return false;
+        }
+        return font instanceof DefaultFont;
+    }
+
+    public FontLoader(@NotNull Fonts fonts) {
 
         this.fonts = fonts;
-        defaultFont = new DefaultFont();
         fontMap = new HashMap<>();
 
         fontsFolder = new File(fonts.getDataFolder(), "fonts");
@@ -34,8 +56,11 @@ public class FontLoader {
             saveDefaultFiles();
             fonts.getLogger().info("Fonts folder loaded.");
         }
+        loadFonts(fontsFolder);
 
+        globalDefault = loadGlobalDefault();
     }
+
 
     /**
      * Saves the fonts the plugin comes bundled with.
@@ -64,21 +89,33 @@ public class FontLoader {
     }
 
     /**
-     * Provides a Font, if it exists. If the font exists, but has not been loaded, this will load the
-     * font.
+     * Provides a Font if it exists.
+     * If the font exists but has not been loaded, this will load the font.
      *
      * @param name The name of the font to get
      * @return The font if it exists, otherwise the default font.
      */
-    public Font getFont(String name) {
-
+    @Nullable
+    public Font getFont(@NotNull String name) {
         if (!(fontMap.containsKey("name"))) {
             return loadFont(name);
         }
 
-        Font font = fontMap.get(name);
-        return font != null ? font : defaultFont;
+        return fontMap.get(name);
+    }
 
+    public Font getFontOrDefault(@NotNull String name) {
+        Font font = getFont(name);
+        return font != null ? font : DEFAULT_FONT;
+    }
+
+    @NotNull
+    public Font globalDefault() {
+        return globalDefault;
+    }
+
+    public Set<Font> getLoadedFonts() {
+        return new HashSet<>(fontMap.values());
     }
 
     /**
@@ -87,10 +124,10 @@ public class FontLoader {
      * @param name The name of the font to search for.
      * @return The specified font, if it exists, otherwise returns the default font.
      */
-    private Font loadFont(String name) {
+    private Font loadFont(@NotNull String name) {
 
         if (name.equalsIgnoreCase("default")) {
-            return defaultFont;
+            return DEFAULT_FONT;
         }
 
         File file = new File(fontsFolder, name + ".yml");
@@ -120,11 +157,31 @@ public class FontLoader {
             }
         }
         fonts.getLogger().info("Failed to load font '" + name + "', file not found.");
-        return defaultFont;
+        return DEFAULT_FONT;
     }
 
-    public DefaultFont getDefaultFont() {
-        return (DefaultFont) defaultFont;
+    private Font loadGlobalDefault() {
+        FileConfiguration config = fonts.getConfig();
+        String defaultName = config.getString("default");
+        if (defaultName == null) {
+            return DEFAULT_FONT;
+        }
+
+        Font font = loadFont(defaultName);
+        return font != null ? font : DEFAULT_FONT;
+    }
+
+    private void loadFonts(@NotNull File file) {
+        String names[] = file.list();
+        if (names == null) {
+            return;
+        }
+
+        for (String name : names) {
+            if (name.endsWith(".yml")) {
+                loadFont(name.substring(0, name.length() - 4));
+            }
+        }
     }
 
 }

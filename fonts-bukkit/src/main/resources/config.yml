@@ -19,6 +19,9 @@
 # For uploading and managing fonts, read README.txt in the "fonts" folder.
 # This file primarily handles configuration for commands.
 
+# What should the default font for players be?
+default: "default"
+
 # Storage Method:
 # Options:
 # - yml

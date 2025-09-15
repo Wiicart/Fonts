@@ -67,3 +67,20 @@ reloaded: "&fFonts version &7{version} &freloaded."
 # Available placeholders:
 # {version}
 version: "&fRunning &cFonts &fversion &7{version}&f."
+
+# Sent if a player uses a command wrong.
+# Placeholder: {usage} - the proper usage
+invalid-usage: "&fInvalid command usage. Proper usage: &7{usage}&f."
+
+# Sent when console tries to run a command that requires a player without specifying a player
+console-must-define-player: "&fConsole must define a player to use that command on."
+
+# Sent when a player attempts to use a command on another player.
+cant-use-on-others: "&fYou don't have permission to use that command on other players."
+
+# Sent when a player's font is reset
+font-reset: "&fYour font has been reset."
+
+# Sent when someone resets another player's font
+# Placeholder: {user} - the user who had their font reset
+font-reset-other: "&7{user}&f's font has been reset."

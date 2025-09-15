@@ -12,7 +12,7 @@
     [INFORMATION]
     Fonts primarily functions by replacing player text with Unicode equivalents.
 
-    This plugin comes pre-packaged with 9 fonts by default:
+    This plugin comes pre-packaged with nine fonts by default:
       - circled
       - italic
       - mono
